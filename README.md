@@ -107,12 +107,16 @@ $api.data_info.getDepartmentData(department_index)
 
 ใช้สำหรับ ค้นหาชื่อเต็มใช้ใน 
 ```
-$api.data_info.getLikeName("TA");
+$api.data_info.getLikeName(ชื่อ);
 ```
 
 ```
 $api.paperless.post()
-$api.paperless.getValue()
+$api.paperless.getValue(
+  table_name,
+  "approve_process_id",
+  approve_process_id
+)
 $api.paperless.update()
 ```
 
