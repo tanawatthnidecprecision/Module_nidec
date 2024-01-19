@@ -1,3 +1,11 @@
+### Init
+'''JS
+import { $api } from "https://tanawatthnidecprecision.github.io/Module_nidec/nidec.min.js";
+
+window.addEventListener("load", async () => {
+  console.log(await $api.user_config.getConfig("index is not null"));
+});
+'''
 
 ### Persornal Service
 
