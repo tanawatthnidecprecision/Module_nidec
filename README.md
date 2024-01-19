@@ -112,12 +112,23 @@ $api.data_info.getLikeName(ชื่อ);
 
 ```
 $api.paperless.post()
+```
+```
 $api.paperless.getValue(
   table_name,
   "approve_process_id",
   approve_process_id
 )
-$api.paperless.update()
+```
+```
+$api.paperless.update({
+                    condition:
+                      "approve_process_id=0",
+                    data: {
+                      comment: JSON.stringify(JSON),
+                    },
+                    table_name: "ชื่อ table_name",
+                  })
 ```
 
 
