@@ -1,12 +1,12 @@
 
-# Persornal Service
+### Persornal Service
 
 ใช้สำหรับดึงข้อมูล
 สามารถโยนพารามิเตอร์ได้ 2 ตัว หรือจะไม่โยนก็ได้
 ตัวแรกคือคำสั่ง sql สำหรับ where
 ตัวที่สองคือ ชื่อตาราง
-*/
-'''
+
+'''js
 const response = await $api.user_config.getConfig("index is not null");
 '''
 const responseOther = await $api.user_config.getConfig(
