@@ -88,11 +88,11 @@ $api.approve.updateState(
 สำหรับสร้าง approve alarm 
 ```
 $api.approve.postApproveAlarm({
-                    user_index: 0,
-                    slip_index: 0,
-                    section_name: '',
-                    type_index: 0,
-                  })
+  user_index: 0,
+  slip_index: 0,
+  section_name: '',
+  type_index: 0
+})
 ```
 ## Data Info Service (สำหรับดึงข้อมูลส่วนบุคคล)
 ใช้สำหรับดึงข้อมูลส่วนบุคคล (บล็อคการเข้าถึง password)
@@ -113,6 +113,7 @@ $api.data_info.getLikeName(ชื่อ);
 ```
 $api.paperless.post()
 ```
+
 ```
 $api.paperless.getValue(
   table_name,
@@ -120,15 +121,15 @@ $api.paperless.getValue(
   approve_process_id
 )
 ```
+
 ```
 $api.paperless.update({
-                    condition:
-                      "approve_process_id=0",
-                    data: {
-                      comment: JSON.stringify(JSON),
-                    },
-                    table_name: "ชื่อ table_name",
-                  })
+  condition: "approve_process_id=0",
+  data: {
+    comment: JSON.stringify(JSON),
+  },
+  table_name: "ชื่อ table_name",
+})
 ```
 
 
