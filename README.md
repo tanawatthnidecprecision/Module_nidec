@@ -71,14 +71,14 @@ $api.approve.create({
 ```
 
 สำหรับสร้าง ดึงสถานะของ approve_process 
-```
+```JS
 $api.approve.getState(
   approve_process_id
 )
 ```
 
 สำหรับอัปเดต สถานะของ approve_process 
-```
+```JS
 $api.approve.updateState(
   ลำดับ,
   `approve_process_id=${รหัส approve_process_id}`                  
@@ -86,7 +86,7 @@ $api.approve.updateState(
 ```
 
 สำหรับสร้าง approve alarm 
-```
+```JS
 $api.approve.postApproveAlarm({
   user_index: 0,
   slip_index: 0,
@@ -101,22 +101,23 @@ $api.data_info.getInfoData(user_index)
 ```
 
 ใช้สำหรับดึงข้อมูลแผนก
-```
+```JS
 $api.data_info.getDepartmentData(department_index)
 ```
 
 ใช้สำหรับ ค้นหาชื่อเต็มใช้ใน 
-```
+```JS
 $api.data_info.getLikeName(ชื่อ);
 ```
 
 ใช้สำหรับส่งข้อมูล paperless
 ##### *ข้อมูลที่จะนำเข้าชื่อ key ต้องตรงกับ colums ใน table
-```
+```JS
 $api.paperless.post(JSON)
 ```
 
-```
+ใช้สำหรับดึงข้อมูล paperless ต้องกำหนดเงื่อนไข
+```JS
 $api.paperless.getValue(
   table_name,
   "approve_process_id",
@@ -124,7 +125,8 @@ $api.paperless.getValue(
 )
 ```
 
-```
+ใช้สำหรับอัปเดตข้อมูล paperless ต้องกำหนดเงื่อนไข และชื่อของฐานข้อมูล
+```JS
 $api.paperless.update({
   condition: "approve_process_id=0",
   data: {
@@ -139,11 +141,11 @@ $api.paperless.update({
 ## Mail Service (สำหรับส่ง E-mail)
 
 สำหรับ ค้นหาอีเมลด้วย ชื่อ นามสกุล
-```
+```JS
 $api.mail.getMail(ชื่อ, นามสกุล);
 ```
 
 สำหรับ ส่งอีเมล
-```
+```JS
 $api.mail.send(หัวข้อ,ข้อความ,อีเมล);
 ```
