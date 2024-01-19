@@ -1,4 +1,4 @@
-### Init
+### Initialize
 ```JS
 import { $api } from "https://tanawatthnidecprecision.github.io/Module_nidec/nidec.min.js";
 
