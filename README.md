@@ -1,11 +1,11 @@
 ### Init
-'''JS
+```JS
 import { $api } from "https://tanawatthnidecprecision.github.io/Module_nidec/nidec.min.js";
 
 window.addEventListener("load", async () => {
   console.log(await $api.user_config.getConfig("index is not null"));
 });
-'''
+```
 
 ### Persornal Service
 
@@ -14,9 +14,9 @@ window.addEventListener("load", async () => {
 ตัวแรกคือคำสั่ง sql สำหรับ where
 ตัวที่สองคือ ชื่อตาราง
 
-'''js
+```js
 const response = await $api.user_config.getConfig("index is not null");
-'''
+```
 const responseOther = await $api.user_config.getConfig(
   "index is not null",
   "daily_data"
