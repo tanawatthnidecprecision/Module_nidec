@@ -1,3 +1,5 @@
+[![image](https://i.ibb.co/PtrwNmd/0f483c07-4683-4c97-ba7b-a0de3c12b34d-removebg-preview.png)]
+
 ### Initialize
 ```JS
 import { $api } from "https://tanawatthnidecprecision.github.io/Module_nidec/nidec.min.js";
