@@ -54,6 +54,7 @@ const responseUpdate = await $api.user_config.updateConfig(
   "aclivity_list"
 );
 
+## Approve Service
 
 สำหรับสร้าง approve_process และ approve_process_flow 
 ```JS
@@ -117,7 +118,7 @@ $api.paperless.update()
 
 
 
-## สำหรับส่ง E-mail 
+## Mail Service (สำหรับส่ง E-mail)
 
 สำหรับ ค้นหาอีเมลด้วย ชื่อ นามสกุล
 ```
