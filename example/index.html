@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://tanawatthnidecprecision.github.io/CDN_nidec/module.css"
+    />
+    <!-- Include html2canvas from CDN -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-alpha1/html2canvas.min.js"
+      integrity="sha512-Ih/6Hivj+361PNhdTq03BrGbzCpetyokxTKSqohHw8GSsGD6jGzp4E5Wl8nayPWN3iUpZpfRNE/25q5BuaUd8Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="./modules/sweetalert2@11.js"></script>
+  </head>
+  <body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <div id="app" class="nd-mb-2">
+      <img
+        src="./images/robot.png"
+        class="nd-fixed nd-w-px-30 nd-opacity-5"
+        style="z-index: 10"
+      />
+      <img
+        src="./images/logo.png"
+        class="nd-fixed nd-w-px-30 nd-opacity-5"
+        style="z-index: 10; right: 2px; bottom: 10px"
+      />
+      <div class="nd-paper nd-mt-2 nd-bg-white" style="z-index: 99">
+        <div class="nd-grid nd-w-10">
+          <div
+            class="nd-item-grid-12 nd-text-center nd-bg-linear-green nd-color-white nd-radius-1"
+          >
+            Gate Pass
+          </div>
+        </div>
+
+        <!-- nd-grid -->
+        <div class="nd-grid nd-mb-2 nd-w-9 nd-mt-2">
+          <div class="nd-grid nd-item-grid-6">
+            <div class="nd-item-grid-5 nd-text-right">
+              <span class="nd-size-13 nd-mr-1">ชื่อ-นามสกุล : </span>
+            </div>
+            <div class="nd-item-grid-7">
+              <input
+                type="text"
+                class="nd-input-normal nd-w-10"
+                v-model="objectData.full_name"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="nd-grid nd-item-grid-6 nd-ml-3">
+            <div class="nd-item-grid-5 nd-text-right">
+              <span class="nd-size-13 nd-mr-1"> เลขประจำตัว : </span>
+            </div>
+            <div class="nd-item-grid-7">
+              <input
+                type="text"
+                class="nd-input-normal nd-w-10"
+                v-model="objectData.number_employee_request"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div class="nd-grid nd-mb-2 nd-w-9">
+          <div class="nd-grid nd-item-grid-6">
+            <div class="nd-item-grid-5 nd-text-right">
+              <span class="nd-size-13 nd-mr-1"> แผนก : </span>
+            </div>
+            <div class="nd-item-grid-7">
+              <input
+                type="text"
+                class="nd-input-normal nd-w-10"
+                v-model="objectData.department"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="nd-grid nd-item-grid-6 nd-ml-3">
+            <div class="nd-item-grid-5 nd-text-right">
+              <span class="nd-size-13 nd-mr-1" v-model="objectData.car_id">
+                ทะเบียนรถ :
+              </span>
+            </div>
+            <div class="nd-item-grid-7">
+              <input
+                type="text"
+                class="nd-input-normal nd-w-10"
+                v-model="objectData.car_id"
+                :disabled="state != 0"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="nd-grid nd-mb-2 nd-w-9">
+          <div class="nd-grid nd-item-grid-6">
+            <div class="nd-item-grid-5 nd-text-right">
+              <span class="nd-size-13 nd-mr-1">รหัสพนักงาน : </span>
+            </div>
+            <div class="nd-item-grid-7">
+              <input
+                type="text"
+                class="nd-inline nd-input-normal nd-w-6 nd-mr-1"
+                v-model="searchNumberEmployees"
+                :disabled="state != 0"
+              />
+              <button
+                class="nd-btn-warning nd-inline"
+                @click="addEmployeeNumber"
+                v-if="state == 0"
+              >
+                เพิ่ม
+              </button>
+            </div>
+          </div>
+          <div class="nd-grid nd-item-grid-6 nd-ml-3">
+            <div class="nd-item-grid-5 nd-text-right">
+              <span class="nd-size-13 nd-mr-1"> วันเวลาที่ต้องการ : </span>
+            </div>
+            <div class="nd-item-grid-7">
+              <input
+                type="datetime-local"
+                class="nd-input-normal nd-w-10"
+                :disabled="state != 0"
+                v-model="objectData.date_time_request"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- -->
+        <div class="nd-mb-2">
+          <div class="nd-grid nd-w-7 nd-ml-2 nd-size-12">
+            <div class="nd-grid nd-item-grid-12">
+              <div class="nd-item-grid-2 nd-card nd-text-center nd-w-10"></div>
+              <div class="nd-item-grid-4 nd-card nd-text-center">
+                <span class="nd-w-10 nd-size-12">Emp No.</span>
+              </div>
+              <div class="nd-item-grid-3 nd-card nd-text-center">
+                <span class="nd-w-10 nd-text-center nd-size-12">Name</span>
+              </div>
+              <div class="nd-item-grid-3 nd-card nd-text-center">
+                <span class="nd-w-10 nd-text-center nd-size-12">Section</span>
+              </div>
+            </div>
+          </div>
+          <div v-if="objectData.number_employee_json != ''">
+            <div
+              class="nd-grid nd-w-7 nd-ml-2 nd-size-12"
+              v-for="item in JSON.parse(objectData.number_employee_json)['data']"
+            >
+              <div class="nd-grid nd-item-grid-12">
+                <div class="nd-item-grid-2 nd-text-center nd-w-10"></div>
+                <div class="nd-item-grid-4 nd-text-center">
+                  <span class="nd-w-10 nd-size-12">{{item[2]}}</span>
+                </div>
+                <div class="nd-item-grid-3 nd-text-center">
+                  <span class="nd-w-10 nd-text-center nd-size-12"
+                    >{{item[16]}}</span
+                  >
+                </div>
+                <div class="nd-item-grid-3 nd-text-center">
+                  <span class="nd-w-10 nd-text-center nd-size-12"
+                    >{{item[7]}}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="nd-opacity-5 nd-mb-2 nd-mt-2"
+          style="background-color: white !important"
+        />
+        <!-- Button for Switch ( ใช้ในกรณีสั่งเปิดปิดเพื่อสลับ toggle ) -->
+        <div class="nd-item-grid-12 nd-grid nd-mb-2">
+          <div class="nd-item-grid-2 nd-text-right">
+            <span class="nd-size-10 nd-mr-1"> Reason to apply for : </span>
+          </div>
+          <div class="nd-item-grid-3">
+            <div class="nd-grid nd-item-grid-12">
+              <div class="nd-item-grid-2">
+                <input
+                  type="radio"
+                  value="1"
+                  style="margin-top: 8px"
+                  v-model="objectData.reason_type"
+                  :disabled="state != 0"
+                />
+              </div>
+              <div class="nd-item-grid-6">
+                <span class="nd-size-10"> ลางาน ประเภท | Leave </span>
+              </div>
+              <div class="nd-item-grid-4">
+                <input
+                  type="text"
+                  class="nd-inline nd-input-smail nd-w-8 nd-mr-1"
+                  v-model="objectData.reason_leave"
+                  :disabled="state != 0 || objectData.reason_type == 0"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="nd-item-grid-3 nd-ml-3">
+            <div class="nd-grid nd-item-grid-12">
+              <div class="nd-item-grid-2">
+                <input
+                  type="radio"
+                  value="2"
+                  style="margin-top: 8px"
+                  v-model="objectData.reason_type"
+                  :disabled="state != 0"
+                />
+              </div>
+              <div class="nd-item-grid-10">
+                <span class="nd-size-10">
+                  ติดต่องานภายนอก | Outside business
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="nd-item-grid-3 nd-ml-3">
+            <div class="nd-grid nd-item-grid-12">
+              <div class="nd-item-grid-2">
+                <input
+                  type="radio"
+                  value="3"
+                  style="margin-top: 8px"
+                  v-model="objectData.reason_type"
+                  :disabled="state != 0"
+                />
+              </div>
+              <div class="nd-item-grid-5">
+                <span class="nd-size-10"> อื่นๆ | Other </span>
+              </div>
+              <div class="nd-item-grid-5">
+                <span class="nd-size-10">
+                  <input
+                    type="text"
+                    class="nd-inline nd-input-smail nd-w-8 nd-mr-1"
+                    v-model="objectData.reason_option"
+                    :disabled="state != 0"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- -->
+        <div>
+          <p class="nd-w-10 nd-size-12">
+            รายละเอียดกิจธุระ | Detail of business :
+          </p>
+          <textarea
+            class="nd-w-10 nd-h-px-18 nd-mb-2 nd-comment-box"
+            v-model="objectData.detail"
+            :disabled="state != 0"
+          >
+          </textarea>
+        </div>
+
+        <!-- -->
+        <div>
+          <p class="nd-w-10 nd-size-12">Comment :</p>
+          <div
+            class="nd-w-10 nd-h-px-18 nd-mb-2 nd-comment-box nd-pl-2"
+            disabled
+            style="overflow: scroll"
+          >
+            <template v-for="item in Object.keys(commentJSON).reverse()">
+              <div class="">
+                <a class="nd-size-10 nd-w-8 nd-text-left">
+                  From : {{commentJSON[item][0]}} Date : {{new
+                  Date(commentJSON[item][1])}}
+                </a>
+                <p class="nd-size-13 nd-w-8 nd-text-left nd-radius-1">
+                  > {{item}}
+                </p>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Button for Switch ( ใช้ในกรณีสั่งเปิดปิดเพื่อสลับ toggle ) -->
+        <div class="nd-grid nd-gap-2 nd-w-8">
+          <div class="nd-item-grid-5"></div>
+          <div class="nd-item-grid-7">
+            <div class="nd-grid nd-w-px-60 nd-h-px-18 nd-gap-2">
+              <div class="nd-item-grid-4">
+                <div
+                  class="nd-card nd-pl-1 nd-pb-1 nd-pt-1 nd-pr-1 nd-w-8 nd-radius-1 nd-text-center nd-h-px-13"
+                >
+                  <div style="background-color: bisque" class="nd-radius-1">
+                    <span class="nd-text-center nd-size-12 nd-w-10"
+                      >Acknowledge</span
+                    >
+                  </div>
+                  <div class="nd-mb-2 nd-mt-2">
+                    <button
+                      class="nd-btn-disable"
+                      v-if="![-1,2].includes(state) || approveFlow['acknowledge'] != objectData.full_name"
+                    >
+                      {{ [ "none","waitting","waitting","approve" ][state] }}
+                    </button>
+                    <button
+                      class="nd-btn-success nd-size-10 nd-block nd-m-a"
+                      v-if="state == 2 && approveFlow['acknowledge'] === objectData.full_name"
+                      @click="changeState(3)"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      class="nd-btn-blue nd-size-10 nd-block nd-mt-1 nd-m-a"
+                      v-if="state == 2 && approveFlow['acknowledge'] === objectData.full_name"
+                      @click="changeState(1)"
+                    >
+                      rework
+                    </button>
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      v-model="acknowledge"
+                      class="nd-w-8 nd-input-smail"
+                      :disabled="state != 0"
+                      v-if="
+                      (blurSelected == 2 && approveFlow['acknowledge'] != objectData.full_name) && state == 0 || 
+                      ([1].includes(state)) || 
+                      state == 0 && [0,2].includes(blurSelected) ||
+                      state == 2 && approveFlow['acknowledge'] != objectData.full_name
+                      "
+                      list="dataListOption"
+                    />
+                    <input
+                      type="text"
+                      v-model="acknowledge"
+                      class="nd-w-8 nd-input-smail"
+                      :disabled="state != 0"
+                      v-if="((blurSelected != 2 && blurSelected != 0 && state == 0))"
+                      v-on:focus="()=>{
+                        blurSelected = 2
+                      }"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="nd-item-grid-4">
+                <div
+                  class="nd-card nd-pl-1 nd-pb-1 nd-pt-1 nd-pr-1 nd-w-8 nd-radius-1 nd-text-center nd-h-px-13"
+                >
+                  <div style="background-color: bisque" class="nd-radius-1">
+                    <span class="nd-text-center nd-size-12 nd-w-10"
+                      >Checked</span
+                    >
+                  </div>
+                  <div class="nd-mb-2 nd-mt-2">
+                    <button
+                      class="nd-btn-disable"
+                      v-if="![-1,1].includes(state) || approveFlow['checked'] != objectData.full_name"
+                    >
+                      {{ [ "none","waitting","approve","approve" ][state] }}
+                    </button>
+                    <button
+                      class="nd-btn-success nd-size-10 nd-block nd-m-a"
+                      v-if="state == 1 && approveFlow['checked'] === objectData.full_name"
+                      @click="changeState(2)"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      class="nd-btn-blue nd-size-10 nd-block nd-mt-1 nd-m-a"
+                      v-if="state == 1 && approveFlow['checked'] === objectData.full_name"
+                      @click="changeState(-1)"
+                    >
+                      rework
+                    </button>
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      v-model="checked"
+                      class="nd-w-8 nd-input-smail"
+                      :disabled="state != 0"
+                      v-if="
+                      (blurSelected == 1 && state == 0) || 
+                      ([2].includes(state)) || 
+                      state == 0 && blurSelected == 1 ||
+                      (state != 0 && 
+                      approveFlow['checked'] != objectData.full_name)"
+                      list="dataListOption"
+                    />
+                    <input
+                      type="text"
+                      v-model="checked"
+                      class="nd-w-8 nd-input-smail"
+                      :disabled="state != 0"
+                      v-if="(blurSelected != 1 && state == 0)"
+                      v-on:focus="()=>{
+                        blurSelected = 1
+                      }"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="nd-item-grid-4">
+                <div
+                  class="nd-card nd-pl-1 nd-pb-1 nd-pt-1 nd-pr-1 nd-w-8 nd-radius-1 nd-text-center nd-h-px-13"
+                >
+                  <div style="background-color: bisque" class="nd-radius-1">
+                    <span class="nd-text-center nd-size-12 nd-w-10"
+                      >Prepared</span
+                    >
+                  </div>
+                  <div class="nd-mb-2 nd-mt-2">
+                    <button
+                      class="nd-size-12"
+                      :class="{
+                      'nd-btn-success':!validate,
+                      'nd-btn-disable':validate
+                    }"
+                      v-if="state == 0"
+                      :disabled="
+                      validate &&
+                      checked != '' &&
+                      acknowledge != ''
+                      "
+                      @click="submit"
+                    >
+                      Submits
+                    </button>
+                    <span
+                      class="nd-text-center nd-size-12 nd-w-10"
+                      v-if="state != 0"
+                      >approve</span
+                    >
+                  </div>
+                  <div>
+                    <span class="nd-text-center nd-size-12 nd-w-10"
+                      >{{ objectData.full_name }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nd-grid nd-gap-2 nd-w-8">
+          <div class="nd-item-grid-5"></div>
+          <div class="nd-item-grid-7">
+            <div class="nd-grid nd-w-px-60 nd-h-px-18 nd-gap-2">
+              <div class="nd-item-grid-4" style="display: none">
+                <div
+                  class="nd-card nd-pl-1 nd-pb-1 nd-pt-1 nd-pr-1 nd-w-8 nd-radius-1 nd-text-center nd-h-px-13"
+                >
+                  <div style="background-color: bisque" class="nd-radius-1">
+                    <span class="nd-text-center nd-size-12 nd-w-10"
+                      >Seculity guard</span
+                    >
+                  </div>
+                  <div class="nd-mb-2 nd-mt-2">
+                    <button class="nd-btn-disable">Disabled</button>
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      v-model="state"
+                      class="nd-w-8 nd-input-smail"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <datalist id="dataListOption">
+        <template v-for="item in dataList">
+          <option :value="item[1]+' '+item[2]"></option
+        ></template>
+      </datalist>
+
+      <script type="module">
+        const { createApp, reactive, onMounted, ref, watch, computed } = Vue;
+        import { $api } from "./modules/nidec.min.js";
+
+        createApp({
+          setup() {
+            /* variable*/
+            const state = ref(0);
+
+            const userIndex = ref("");
+            const searchNumberEmployees = ref("");
+
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const checked = ref("");
+            const acknowledge = ref("");
+            const seculity = ref("");
+
+            const objectData = reactive({
+              gate_pass_index: "",
+              approve_process_id: "",
+              full_name: "",
+              number_employee_request: "",
+              department: "",
+              car_id: "",
+              number_employee_json: "",
+              date_time_request: "",
+              reason_type: "",
+              reason_leave: "",
+              reason_option: "",
+              detail: "",
+              comment: "{}",
+              flow: "",
+            });
+
+            const commentJSON = computed(() => {
+              return JSON.parse(objectData.comment);
+            });
+
+            /* watch hook*/
+            watch(userIndex, async () => {
+              const { data: data } = await $api.data_info.getInfoData(
+                userIndex.value
+              );
+              if (data && data.length > 0) {
+                const { data: deparment_data } =
+                  await $api.data_info.getDepartmentData(data[6]);
+                objectData.full_name = data[0] + " " + data[5];
+                objectData.number_employee_request = data[2];
+                objectData.department = deparment_data[0];
+              }
+            });
+
+            const clearObjectData = () => {
+              Object.keys(objectData).forEach((item) => {
+                objectData[item] = "";
+              });
+            };
+
+            const addEmployeeNumber = async () => {
+              const { data: data } = await $api.data_info.getInfoData(
+                searchNumberEmployees.value,
+                "id"
+              );
+              if (data && data.length > 0) {
+                let json_temp = {};
+                if (objectData.number_employee_json != "") {
+                  json_temp = JSON.parse(objectData.number_employee_json);
+                }
+
+                let list_temp = json_temp["data"] ? json_temp["data"] : [];
+                list_temp.push(data);
+                objectData.number_employee_json = JSON.stringify({
+                  data: list_temp,
+                });
+
+                searchNumberEmployees.value = "";
+              }
+            };
+
+            const filterData = computed(() => {
+              let jsonTemp = {};
+              Object.keys(objectData).forEach((item) => {
+                if (objectData[item] != "") {
+                  jsonTemp[item] = objectData[item];
+                }
+              });
+              if (jsonTemp["flow"]) {
+                delete jsonTemp["flow"];
+              }
+              if (jsonTemp["number_employee_request"]) {
+                delete jsonTemp["number_employee_request"];
+              }
+
+              jsonTemp["approve_process_id"] = 111;
+              return jsonTemp;
+            });
+
+            const submit = async () => {
+              Swal.fire({
+                title: "Do you want to send request?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  const responseCreateApprove = await $api.approve.create({
+                    user_index: 7150,
+                    type_index: 9999,
+                    department_index: 0,
+                    slip_index: 0,
+                    approve_json: {
+                      checked: checked.value,
+                      acknowledge: acknowledge.value,
+                    },
+                  });
+                  const approve_process_id =
+                    responseCreateApprove[0]["data"][0][0];
+                  const jsonData = filterData.value;
+                  jsonData["approve_process_id"] = approve_process_id;
+                  let responsePaperless = await $api.paperless.post(jsonData);
+                  let approveAlarm = await $api.approve.postApproveAlarm({
+                    user_index: parseInt(userIndex.value),
+                    slip_index: approve_process_id,
+                    section_name: objectData.department,
+                    type_index: 25,
+                  });
+                  const link = `http://127.0.0.1:5501/?dXNlcl9pbmRleA=${btoa(
+                    parseInt(userIndex.value)
+                  )}&Y2xhaW1fc2xpcF9pbmRleA=${btoa(approve_process_id)}`;
+                  await sendMail(
+                    objectData.full_name,
+                    `คุณได้ส่งคำขอ Gate Pass \n คุณสามารถเข้าผ่านทางลิ้งด้านล่างนี้ \n ${link}`
+                  );
+                  await sendMail(
+                    checked.value,
+                    "คุณได้รับคำขอ Gate Pass จาก " +
+                      objectData.full_name +
+                      `\n คุณสามารถเข้าผ่านทางลิ้งด้านล่างนี้ \n ${link}`
+                  );
+                  await Swal.fire("Saved!", "", "success");
+                  window.location.reload();
+                }
+              });
+            };
+
+            const sendMail = async (name, text) => {
+              let tmp = name.split(" ");
+              let responseMail = await $api.mail.getMail(tmp[0], tmp[1]);
+              console.log(responseMail);
+              if (responseMail["data"]) {
+                await $api.mail.send(
+                  "Gate Pass",
+                  text,
+                  responseMail["data"][12]
+                );
+              }
+            };
+            const dataList = ref([]);
+            const blurSelected = ref(0);
+
+            watch(checked, async () => {
+              const response = await $api.data_info.getLikeName(checked.value);
+              if (response.status == 200) {
+                dataList.value = response.data;
+              }
+            });
+
+            watch(acknowledge, async () => {
+              const response = await $api.data_info.getLikeName(
+                acknowledge.value
+              );
+              if (response.status == 200) {
+                dataList.value = response.data;
+              }
+            });
+
+            const approveFlow = ref({});
+
+            const changeState = (state) => {
+              Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  createComment(state);
+                } else if (result.isDenied) {
+                  Swal.fire("Changes are not saved", "", "info");
+                }
+              });
+            };
+
+            const createComment = async (state_params) => {
+              Swal.fire({
+                title: "Comment your approve",
+                input: "text",
+                inputAttributes: {
+                  autocapitalize: "off",
+                },
+                showCancelButton: true,
+                confirmButtonText: "Send",
+                showLoaderOnConfirm: true,
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  let comment = JSON.parse(objectData["comment"]);
+                  const responseFlow = await $api.approve.getState(
+                    objectData.approve_process_id
+                  );
+                  const tempJSON = JSON.parse(responseFlow["data"][2]);
+                  console.log(Object.values(tempJSON)[state.value - 1]);
+                  comment[result.value] = [
+                    Object.values(tempJSON)[state.value - 1],
+                    new Date().getTime(),
+                  ];
+                  await $api.paperless.update({
+                    condition:
+                      "approve_process_id=" + objectData.approve_process_id,
+                    data: {
+                      comment: JSON.stringify(comment),
+                    },
+                    table_name: "gate_pass_system",
+                  });
+                  await $api.approve.updateState(
+                    state_params,
+                    `approve_process_id=${objectData.approve_process_id}`
+                  );
+                  if (state_params == 2) {
+                    /*
+                    await sendMail(
+                    checked.value,
+                    "คุณได้รับคำขอ Gate Pass จาก " +
+                      objectData.full_name +
+                      `\n คุณสามารถเข้าผ่านทางลิ้งด้านล่างนี้ \n ${link}`
+                    );
+                    */
+                  }
+                  await loadData();
+                  Swal.fire("Saved!", "", "success");
+                }
+              });
+            };
+
+            const loadData = async () => {
+              const responseConfig = await $api.approve.getState(
+                atob(urlParams.get("Y2xhaW1fc2xpcF9pbmRleA"))
+              );
+              if (responseConfig["data"].length === 4) {
+                state.value = responseConfig["data"][3];
+              }
+              const responseData = await $api.paperless.getValue(
+                "gate_pass_system",
+                "approve_process_id",
+                atob(urlParams.get("Y2xhaW1fc2xpcF9pbmRleA"))
+              );
+              if (responseData.status === "successful") {
+                if (responseData.data.length === 13) {
+                  console.log(responseData["data"]);
+                  objectData["gate_pass_index"] = responseData["data"][0];
+                  objectData["approve_process_id"] = responseData["data"][1];
+                  objectData["car_id"] = responseData["data"][5];
+                  objectData["number_employee_json"] = responseData["data"][6];
+
+                  objectData["reason_type"] = responseData["data"][8];
+                  objectData["reason_option"] = responseData["data"][9];
+                  objectData["reason_leave"] = responseData["data"][12];
+                  objectData["detail"] = responseData["data"][10];
+                  objectData["comment"] = responseData["data"][11];
+                  objectData["date_time_request"] = responseData["data"][7];
+                  console.log("a");
+                  const responseFlow = await $api.approve.getState(
+                    responseData["data"][1]
+                  );
+                  console.log(responseFlow);
+                  const tempJSON = JSON.parse(responseFlow["data"][2]);
+                  approveFlow.value = tempJSON;
+                  console.log("r");
+                  checked.value = tempJSON["checked"];
+                  acknowledge.value = tempJSON["acknowledge"];
+                  console.log("b");
+                }
+              }
+            };
+
+            const validate = computed(() => {
+              return (
+                objectData.number_employee_json == "" ||
+                objectData.date_time_request == "" ||
+                objectData.car_id == "" ||
+                objectData.reason_type == "" ||
+                objectData.detail == ""
+              );
+            });
+
+            onMounted(async () => {
+              userIndex.value = atob(urlParams.get("dXNlcl9pbmRleA"));
+              if (urlParams.get("Y2xhaW1fc2xpcF9pbmRleA")) {
+                await loadData();
+              }
+            });
+
+            return {
+              objectData,
+              searchNumberEmployees,
+              clearObjectData,
+              addEmployeeNumber,
+
+              checked,
+              acknowledge,
+              seculity,
+              state,
+
+              dataList,
+              blurSelected,
+              approveFlow,
+              commentJSON,
+
+              submit,
+              changeState,
+              loadData,
+              validate,
+            };
+          },
+        }).mount("#app");
+      </script>
+    </div>
+  </body>
+</html>
