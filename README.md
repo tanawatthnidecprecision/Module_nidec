@@ -59,15 +59,15 @@ const responseUpdate = await $api.user_config.updateConfig(
 สำหรับสร้าง approve_process และ approve_process_flow 
 ```JS
 $api.approve.create({
-                    user_index: 0,
-                    type_index: 0,
-                    department_index: 0,
-                    slip_index: 0,
-                    approve_json: { // ตัวอย่าง
-                      checked: checked.value,
-                      acknowledge: acknowledge.value,
-                    },
-                  })
+  user_index: 0,
+  type_index: 0,
+  department_index: 0,
+  slip_index: 0,
+  approve_json: { // ตัวอย่าง
+    checked: checked.value,
+    acknowledge: acknowledge.value,
+  },
+})
 ```
 
 สำหรับสร้าง ดึงสถานะของ approve_process 
@@ -110,8 +110,10 @@ $api.data_info.getDepartmentData(department_index)
 $api.data_info.getLikeName(ชื่อ);
 ```
 
+ใช้สำหรับส่งข้อมูล paperless
+##### *ข้อมูลที่จะนำเข้าชื่อ key ต้องตรงกับ colums ใน table
 ```
-$api.paperless.post()
+$api.paperless.post(JSON)
 ```
 
 ```
