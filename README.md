@@ -25,7 +25,6 @@ const responseOther = await $api.user_config.getConfig(
 );
 ```
 
-/*
 ใช้สำหรับส่งข้อมูล
 ต้องโยนพารามิเตอร์ได้ 2 ตัว
 ตัวแรกคือ object ของข้อมูล
@@ -53,6 +52,7 @@ const responseUpdate = await $api.user_config.updateConfig(
   "index = 1199",
   "aclivity_list"
 );
+```
 
 ## Approve Service
 
