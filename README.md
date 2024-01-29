@@ -98,7 +98,7 @@ $api.approve.postApproveAlarm({
 ```
 ## Data Info Service (สำหรับดึงข้อมูลส่วนบุคคล)
 ใช้สำหรับดึงข้อมูลส่วนบุคคล (บล็อคการเข้าถึง password)
-```
+```JS
 $api.data_info.getInfoData(user_index)
 ```
 
