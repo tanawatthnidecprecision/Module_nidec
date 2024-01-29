@@ -20,7 +20,7 @@ window.addEventListener("load", async () => {
 const response = await $api.user_config.getConfig("index is not null");
 ```
 
-```
+```JS
 const responseOther = await $api.user_config.getConfig(
   "index is not null",
   "daily_data"
